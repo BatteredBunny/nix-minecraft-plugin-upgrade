@@ -1,0 +1,15 @@
+[package]
+name = "nix-minecraft-plugin-upgrade"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/BatteredBunny/nix-minecraft-plugin-upgrade"
+description = "Basic program that generates list of plugin versions that can be used with nix-minecraft"
+
+[dependencies]
+clap = { version = "4.5.21", features = ["derive"] }
+tokio = { version = "1.41.1", features = ["full"] }
+reqwest = "0.12.9"
+serde_json = "1.0.132"
+anyhow = "1.0.93"
+serde = { version = "1.0.215", features = ["derive"] }
+itertools = "0.13.0"
