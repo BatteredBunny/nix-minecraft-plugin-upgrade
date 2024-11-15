@@ -1,6 +1,6 @@
 # nix-minecraft-plugin-upgrade
 
-Basic program that generates list of plugin versions that can be used with nix-minecraft
+Basic program that generates list of plugin versions that can be used with [nix-minecraft](https://github.com/Infinidoge/nix-minecraft)
 
 Personally i use it on my server to automate upgrading the plugins used
 
