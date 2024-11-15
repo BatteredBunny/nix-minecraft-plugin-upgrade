@@ -6,7 +6,13 @@
   };
 
   outputs = { self, nixpkgs, rust-overlay, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
+    {
+      overlays.default = final: prev: {
+        nix-minecraft-plugin-upgrade = self.packages.${final.system}.default;
+      };
+    }
+    //
+    (flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs {
@@ -16,10 +22,6 @@
       in
       with pkgs;
       {
-        overlay = {
-          nix-minecraft-plugin-upgrade = packages.default;
-        };
-
         devShells.default = mkShell {
           buildInputs = [
             nightly-rust
@@ -29,5 +31,5 @@
         };
         packages.default = pkgs.callPackage ./build.nix { nightly-rust = nightly-rust; };
       }
-    );
+    ));
 }
