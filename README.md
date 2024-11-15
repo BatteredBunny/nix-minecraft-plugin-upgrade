@@ -7,7 +7,7 @@ Personally i use it on my server to automate upgrading the plugins used
 ## Example usage with nix-minecraft
 
 ```sh
-nix run github:BatteredBunny/nix-minecraft-plugin-upgrade --loader paper --game-version 1.21.1 --project simple-voice-chat --project worldedit > paper-vanilla-plugins.nix
+nix run github:BatteredBunny/nix-minecraft-plugin-upgrade -- --loader paper --game-version 1.21.1 --project simple-voice-chat --project worldedit > paper-vanilla-plugins.nix
 ```
 
 Example command output
