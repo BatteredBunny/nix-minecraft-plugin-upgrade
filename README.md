@@ -4,6 +4,21 @@ Basic program that generates list of plugin versions that can be used with [nix-
 
 Personally i use it on my server to automate upgrading the plugins used
 
+```
+Basic program that generates list of plugin versions that can be used with nix-minecraft
+
+Usage: nix-minecraft-plugin-upgrade [OPTIONS] --loader <LOADER> --game-version <GAME_VERSION> --project <PROJECT>
+
+Options:
+  -l, --loader <LOADER>              Loader type, examples: paper, fabric, bukkit [default: paper]
+  -g, --game-version <GAME_VERSION>  Game version, example: 1.21.1
+  -p, --project <PROJECT>            Project IDs, either id or slug from the website
+      --all-versions                 Include all versions, by default only release versions are fetched
+  -f, --file <FILE>                  File to write output to
+  -h, --help                         Print help
+  -V, --version                      Print version
+```
+
 ## Example usage with nix-minecraft
 
 ```sh
