@@ -41,15 +41,12 @@ pub async fn fetch_project_file(
         "https://api.modrinth.com/v2/project/{project}/version?loaders=[\"{loader}\"]&game_versions=[\"{game_version}\"]",
     );
 
-    let response = reqwest::get(&url)
+    reqwest::get(&url)
         .await
         .context("Failed to fetch from Modrinth API")?
         .error_for_status()?
-        .text()
+        .json::<Vec<ProjectVersion>>()
         .await
-        .context("Failed to read response from Modrinth API")?;
-
-    serde_json::from_str::<Vec<ProjectVersion>>(&response)
         .context("Failed to parse response from Modrinth API")?
         .iter()
         .find(|version| match all_versions {
