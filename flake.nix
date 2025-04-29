@@ -2,34 +2,52 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     rust-overlay.url = "github:oxalica/rust-overlay";
-    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, rust-overlay, flake-utils, ... }:
+  outputs = { self, nixpkgs, rust-overlay, ... }:
+    let
+      inherit (nixpkgs) lib;
+
+      systems = lib.systems.flakeExposed;
+
+      forAllSystems = lib.genAttrs systems;
+
+      nixpkgsFor = forAllSystems (system: import nixpkgs {
+        inherit system;
+
+        overlays = [
+          rust-overlay.overlays.default
+        ];
+      });
+    in
     {
       overlays.default = final: prev: {
-        nix-minecraft-plugin-upgrade = self.packages.${final.system}.default;
+        nix-minecraft-plugin-upgrade = self.packages.${final.stdenv.system}.nix-minecraft-plugin-upgrade;
       };
-    }
-    //
-    (flake-utils.lib.eachDefaultSystem (system:
-      let
-        overlays = [ (import rust-overlay) ];
-        pkgs = import nixpkgs {
-          inherit system overlays;
-        };
-        nightly-rust = pkgs.rust-bin.selectLatestNightlyWith (toolchain: toolchain.default);
-      in
-      with pkgs;
-      {
-        devShells.default = mkShell {
-          buildInputs = [
-            nightly-rust
-            openssl
-            pkg-config
-          ];
-        };
-        packages.default = pkgs.callPackage ./build.nix { nightly-rust = nightly-rust; };
-      }
-    ));
+
+      packages = forAllSystems (system:
+        let
+          pkgs = nixpkgsFor.${system};
+          nightly-rust = pkgs.rust-bin.selectLatestNightlyWith (toolchain: toolchain.default);
+        in
+        rec {
+          nix-minecraft-plugin-upgrade = default;
+          default = pkgs.callPackage ./build.nix { nightly-rust = nightly-rust; };
+        }
+      );
+
+      devShells = forAllSystems (system:
+        let
+          pkgs = nixpkgsFor.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              nightly-rust
+              openssl
+              pkg-config
+            ];
+          };
+        });
+    };
 }
