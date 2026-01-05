@@ -1,21 +1,23 @@
-{ pkgs, makeRustPlatform, lib, nightly-rust }:
-let
-  platform = makeRustPlatform {
-    cargo = nightly-rust;
-    rustc = nightly-rust;
-  };
-in
-platform.buildRustPackage {
+{
+  pkgs,
+  lib ? pkgs.lib,
+  rustPlatform,
+  pkg-config,
+  openssl,
+}:
+rustPlatform.buildRustPackage {
   name = "nix-minecraft-plugin-upgrade";
+  version = "0.2.2";
+
   cargoLock.lockFile = ./Cargo.lock;
 
   src = ./.;
 
-  nativeBuildInputs = with pkgs; [
+  nativeBuildInputs = [
     pkg-config
   ];
 
-  buildInputs = with pkgs; [
+  buildInputs = [
     openssl
   ];
 
