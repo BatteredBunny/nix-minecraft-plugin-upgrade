@@ -9,7 +9,7 @@ description = "Basic program that generates list of plugin versions that can be 
 clap = { version = "4.5.54", features = ["derive"] }
 tokio = { version = "1.49.0", features = ["full"] }
 reqwest = { version = "0.13.1", features = ["json"] }
-serde_json = "1.0.148"
+serde_json = "1.0.149"
 anyhow = "1.0.100"
 serde = { version = "1.0.228", features = ["derive"] }
 itertools = "0.14.0"
