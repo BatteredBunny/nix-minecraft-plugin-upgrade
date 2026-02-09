@@ -8,7 +8,7 @@ description = "Basic program that generates list of plugin versions that can be 
 [dependencies]
 clap = { version = "4.5.57", features = ["derive"] }
 tokio = { version = "1.49.0", features = ["full"] }
-reqwest = { version = "0.13.1", features = ["json"] }
+reqwest = { version = "0.13.2", features = ["json"] }
 serde_json = "1.0.149"
 anyhow = "1.0.101"
 serde = { version = "1.0.228", features = ["derive"] }
